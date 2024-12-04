@@ -10,9 +10,15 @@ export default function Controls({ dnd }: ControlsProps) {
     dnd.reset();
   }
 
+  function handleSetSchemeOne() {
+    dnd.setSchemeOne();
+  }
+
   return (
-    <div>
+    <div className="flex gap-2">
       <button onClick={handleReset}>Сброс</button>
+      <button onClick={handleSetSchemeOne}>4-4-2</button>
+      <span>Количество игроков на поле: {dnd.getPlayersOnFieldCount()}</span>
     </div>
   );
 }

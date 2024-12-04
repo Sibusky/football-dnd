@@ -15,6 +15,7 @@ export interface IPlayer {
     x: number | null;
     y: number | null;
   };
+  role: string;
 }
 
 interface PlayerProps {
@@ -63,6 +64,7 @@ export function Player({ player, isOnField, dnd }: PlayerProps) {
       <h3 className="flex gap-2">
         <span className="font-semibold">{player.id}</span>
         <span>{player.name}</span>
+        <span>({player.role})</span>
       </h3>
     </Tag>
   );

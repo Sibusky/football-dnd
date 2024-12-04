@@ -8,11 +8,6 @@ interface ListProps {
   className?: string;
 }
 
-const RenderCounter = () => {
-  console.count("List rendered");
-  return null;
-};
-
 export default function List({ dnd, className }: ListProps) {
   const { players } = dnd;
 
@@ -25,15 +20,12 @@ export default function List({ dnd, className }: ListProps) {
   );
 
   return (
-    <>
-      {<RenderCounter />}
-      <section className={className}>
-        <ul className="flex flex-col gap-4">
-          {playersWithoutPosition.map((player) => (
-            <Player key={player.id} player={player} dnd={dnd} />
-          ))}
-        </ul>
-      </section>
-    </>
+    <section className={className}>
+      <ul className="flex flex-col gap-4">
+        {playersWithoutPosition.map((player) => (
+          <Player key={player.id} player={player} dnd={dnd} />
+        ))}
+      </ul>
+    </section>
   );
 }

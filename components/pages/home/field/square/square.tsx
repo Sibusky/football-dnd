@@ -50,6 +50,7 @@ const Square = React.memo(function Square({
       ref={drop as unknown as React.LegacyRef<HTMLLIElement>}
       style={squareStyle}
     >
+      <span className="text-xs">{`${x}, ${y}`}</span>
       {children}
     </li>
   );
