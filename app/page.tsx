@@ -1,9 +1,15 @@
-import Image from "next/image";
+// import Image from "next/image";
+
+import Field from "@/components/pages/home/field";
+import List from "@/components/pages/home/list";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <>
+      {/* TODO: remove pt-safe, if it's not needed */}
+      <main className="pt-safe px-safe flex justify-between gap-10 mx-12 mt-12">
+        <Field className="relative w-2/3" />
+        <List className="w-1/3" />
         {/* <Image
           className="dark:invert"
           src="/next.svg"
@@ -96,6 +102,6 @@ export default function Home() {
           Go to nextjs.org →
         </a> */}
       </footer>
-    </div>
+    </>
   );
 }

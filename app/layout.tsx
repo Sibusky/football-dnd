@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Футболисты на поле",
+  title: "Футбольный планер",
   description: "Расстановка футбольных игроков на поле",
 };
 
