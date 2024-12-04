@@ -1,12 +1,21 @@
 import React, { useMemo } from "react";
-import { Player, IPlayer } from "./player";
+import { Player } from "./player";
+
+import { Dnd } from "@/hooks/useDnd";
 
 interface ListProps {
-  players: IPlayer[];
+  dnd: Dnd;
   className?: string;
 }
 
-export default function List({ players, className }: ListProps) {
+const RenderCounter = () => {
+  console.count("List rendered");
+  return null;
+};
+
+export default function List({ dnd, className }: ListProps) {
+  const { players } = dnd;
+
   const playersWithoutPosition = useMemo(
     () =>
       players.filter(
@@ -16,12 +25,15 @@ export default function List({ players, className }: ListProps) {
   );
 
   return (
-    <section className={className}>
-      <ul className="flex flex-col gap-4">
-        {playersWithoutPosition.map((player) => (
-          <Player key={player.id} player={player} />
-        ))}
-      </ul>
-    </section>
+    <>
+      {<RenderCounter />}
+      <section className={className}>
+        <ul className="flex flex-col gap-4">
+          {playersWithoutPosition.map((player) => (
+            <Player key={player.id} player={player} dnd={dnd} />
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }

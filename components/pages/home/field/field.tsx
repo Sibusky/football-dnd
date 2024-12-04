@@ -2,31 +2,21 @@ import Image from "next/image";
 import React from "react";
 import Square from "./square";
 import { FIELD_WIDTH, TOTAL_SQUARES } from "@/constants/field";
-import { IPlayer } from "../list/player";
+import { Dnd } from "@/hooks/useDnd";
+import { Player } from "../list/player";
 
 interface FieldProps {
-  players: IPlayer[];
-  setPlayersState: React.Dispatch<React.SetStateAction<IPlayer[]>>;
+  dnd: Dnd;
   className?: string;
 }
 
-export default function Field({
-  className,
-  players,
-  setPlayersState,
-}: FieldProps) {
-  function handlePlayerDrop(player: IPlayer, x: number, y: number) {
-    const updatedPlayers = players.map((p) =>
-      p.id === player.id ? { ...p, position: { x, y } } : p
-    );
-    setPlayersState(updatedPlayers);
-  }
+const RenderCounter = () => {
+  console.count("Field rendered");
+  return null;
+};
 
-  function handleCanDrop(x: number, y: number) {
-    return !players.some(
-      (player) => player.position.x === x && player.position.y === y
-    );
-  }
+export default function Field({ dnd, className }: FieldProps) {
+  const { players } = dnd;
 
   function renderSquare(i: number) {
     const x = i % FIELD_WIDTH;
@@ -36,15 +26,11 @@ export default function Field({
     );
 
     return (
-      <Square
-        key={i}
-        player={currentPlayer || null}
-        x={x}
-        y={y}
-        onPlayerDrop={handlePlayerDrop}
-        handleCanDrop={handleCanDrop}
-        setPlayersState={setPlayersState}
-      />
+      <Square key={i} x={x} y={y} dnd={dnd}>
+        {currentPlayer && (
+          <Player player={currentPlayer} isOnField={true} dnd={dnd} />
+        )}
+      </Square>
     );
   }
 
@@ -54,18 +40,21 @@ export default function Field({
   }
 
   return (
-    <section className={className}>
-      <Image
-        className="w-full"
-        src="/pages/home/field.svg"
-        alt="Футбольное поле"
-        width={452}
-        height={684}
-        priority
-      />
-      <ul className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[93%] flex flex-wrap">
-        {squares}
-      </ul>
-    </section>
+    <>
+      {<RenderCounter />}
+      <section className={className}>
+        <Image
+          className="w-full"
+          src="/pages/home/field.svg"
+          alt="Футбольное поле"
+          width={452}
+          height={684}
+          priority
+        />
+        <ul className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[93%] flex flex-wrap">
+          {squares}
+        </ul>
+      </section>
+    </>
   );
 }

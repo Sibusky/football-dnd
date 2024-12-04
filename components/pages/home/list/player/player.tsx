@@ -5,10 +5,12 @@ import React from "react";
 import Image from "next/image";
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "@/types/item-types";
+import { Dnd } from "@/hooks/useDnd";
 
 export interface IPlayer {
   id: number;
   name: string;
+  avatar: string;
   position: {
     x: number | null;
     y: number | null;
@@ -18,12 +20,12 @@ export interface IPlayer {
 interface PlayerProps {
   player: IPlayer;
   isOnField?: boolean;
-  setPlayersState?: React.Dispatch<React.SetStateAction<IPlayer[]>>;
+  dnd: Dnd;
 }
 
-export function Player({ player, isOnField, setPlayersState }: PlayerProps) {
+export function Player({ player, isOnField, dnd }: PlayerProps) {
   const Tag = isOnField ? "div" : "li";
-
+  const { removePlayer } = dnd;
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: ItemTypes.PLAYER,
@@ -36,13 +38,7 @@ export function Player({ player, isOnField, setPlayersState }: PlayerProps) {
   );
 
   function handleRemoveFromField() {
-    if (setPlayersState) {
-      const removedPlayer = { ...player, position: { x: null, y: null } };
-      setPlayersState((prevPlayersState: IPlayer[]) => [
-        ...prevPlayersState.filter((p) => p.id !== player.id),
-        removedPlayer,
-      ]);
-    }
+    removePlayer(player);
   }
 
   return (
@@ -58,10 +54,10 @@ export function Player({ player, isOnField, setPlayersState }: PlayerProps) {
       {isOnField && <button onClick={handleRemoveFromField}>R</button>}
       <Image
         className="size-12 rounded-full"
-        src={`/pages/home/avatars/${player.id}.jpg`}
+        src={player.avatar}
         alt={player.name}
-        width={4615}
-        height={5336}
+        width={150}
+        height={150}
         priority
       />
       <h3 className="flex gap-2">

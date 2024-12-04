@@ -4,58 +4,63 @@ import { ItemTypes } from "@/types/item-types";
 import React from "react";
 import { useDrop } from "react-dnd";
 import clsx from "clsx";
-import { IPlayer, Player } from "../../list/player";
+import { IPlayer } from "../../list/player";
+import { Dnd } from "@/hooks/useDnd";
 
 interface SquareProps {
-  player: IPlayer | null;
   x: number;
   y: number;
-  onPlayerDrop: (player: IPlayer, x: number, y: number) => void;
-  handleCanDrop: (x: number, y: number) => boolean;
-  setPlayersState?: React.Dispatch<React.SetStateAction<IPlayer[]>>;
+  dnd: Dnd;
+  children?: React.ReactNode;
 }
 
-export default function Square({
-  player,
+const RenderCounter = () => {
+  console.count("Square rendered");
+  return null;
+};
+
+const squareStyle = {
+  width: `calc(100%/${FIELD_WIDTH})`,
+  height: `calc(100%/${FIELD_LENGTH})`,
+};
+
+const Square = React.memo(function Square({
   x,
   y,
-  onPlayerDrop,
-  handleCanDrop,
-  setPlayersState,
+  dnd,
+  children,
 }: SquareProps) {
+  const { movePlayer, canMovePlayer } = dnd;
+
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: ItemTypes.PLAYER,
       canDrop: () => {
-        return handleCanDrop(x, y);
+        return canMovePlayer(x, y);
       },
       drop: (draggedPlayer: IPlayer) => {
-        onPlayerDrop(draggedPlayer, x, y);
+        movePlayer(draggedPlayer, x, y);
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
         canDrop: !!monitor.canDrop(),
       }),
     }),
-    [onPlayerDrop, x, y]
+    [movePlayer, canMovePlayer, x, y]
   );
 
   return (
-    <li
-      className={clsx("border", isOver && "bg-red-500")}
-      ref={drop as unknown as React.LegacyRef<HTMLLIElement>}
-      style={{
-        width: `calc(100%/${FIELD_WIDTH})`,
-        height: `calc(100%/${FIELD_LENGTH})`,
-      }}
-    >
-      {player && (
-        <Player
-          player={player}
-          isOnField={true}
-          setPlayersState={setPlayersState}
-        />
-      )}
-    </li>
+    <>
+      {<RenderCounter />}
+      <li
+        className={clsx("border", isOver && "bg-red-500")}
+        ref={drop as unknown as React.LegacyRef<HTMLLIElement>}
+        style={squareStyle}
+      >
+        {children}
+      </li>
+    </>
   );
-}
+});
+
+export default Square;
