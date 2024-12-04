@@ -7,6 +7,7 @@ export interface Dnd {
   movePlayer: (player: IPlayer, x: number, y: number) => void;
   canMovePlayer: (toX: number, toY: number) => boolean;
   removePlayer: (player: IPlayer) => void;
+  reset: () => void;
 }
 
 export function useDnd(): Dnd {
@@ -30,7 +31,6 @@ export function useDnd(): Dnd {
   );
 
   const removePlayer = useCallback((player: IPlayer) => {
-    console.log("removePlayer");
     const removedPlayer = { ...player, position: { x: null, y: null } };
     setPlayers((prevPlayers: IPlayer[]) => [
       ...prevPlayers.filter((p) => p.id !== player.id),
@@ -38,5 +38,9 @@ export function useDnd(): Dnd {
     ]);
   }, []);
 
-  return { players, movePlayer, canMovePlayer, removePlayer };
+  const reset = useCallback(() => {
+    setPlayers(initialPlayers);
+  }, []);
+
+  return { players, movePlayer, canMovePlayer, removePlayer, reset };
 }

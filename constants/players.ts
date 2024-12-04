@@ -3,7 +3,7 @@ export const initialPlayers = [
     id: 10,
     name: "Иван Андреев",
     avatar: "https://i.pravatar.cc/150?img=3",
-    position: { x: 1, y: 1 },
+    position: { x: null, y: null },
   },
   {
     id: 22,

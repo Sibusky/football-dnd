@@ -10,11 +10,6 @@ interface FieldProps {
   className?: string;
 }
 
-const RenderCounter = () => {
-  console.count("Field rendered");
-  return null;
-};
-
 export default function Field({ dnd, className }: FieldProps) {
   const { players } = dnd;
 
@@ -40,21 +35,18 @@ export default function Field({ dnd, className }: FieldProps) {
   }
 
   return (
-    <>
-      {<RenderCounter />}
-      <section className={className}>
-        <Image
-          className="w-full"
-          src="/pages/home/field.svg"
-          alt="Футбольное поле"
-          width={452}
-          height={684}
-          priority
-        />
-        <ul className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[93%] flex flex-wrap">
-          {squares}
-        </ul>
-      </section>
-    </>
+    <section className={className}>
+      <Image
+        className="w-full"
+        src="/pages/home/field.svg"
+        alt="Футбольное поле"
+        width={452}
+        height={684}
+        priority
+      />
+      <ul className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[93%] flex flex-wrap">
+        {squares}
+      </ul>
+    </section>
   );
 }

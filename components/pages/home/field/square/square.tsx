@@ -14,11 +14,6 @@ interface SquareProps {
   children?: React.ReactNode;
 }
 
-const RenderCounter = () => {
-  console.count("Square rendered");
-  return null;
-};
-
 const squareStyle = {
   width: `calc(100%/${FIELD_WIDTH})`,
   height: `calc(100%/${FIELD_LENGTH})`,
@@ -50,16 +45,13 @@ const Square = React.memo(function Square({
   );
 
   return (
-    <>
-      {<RenderCounter />}
-      <li
-        className={clsx("border", isOver && "bg-red-500")}
-        ref={drop as unknown as React.LegacyRef<HTMLLIElement>}
-        style={squareStyle}
-      >
-        {children}
-      </li>
-    </>
+    <li
+      className={clsx("border", isOver && "bg-red-500")}
+      ref={drop as unknown as React.LegacyRef<HTMLLIElement>}
+      style={squareStyle}
+    >
+      {children}
+    </li>
   );
 });
 
