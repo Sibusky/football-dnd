@@ -1,35 +1,25 @@
-import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
+import { Player, IPlayer } from "./player";
 
 interface ListProps {
+  players: IPlayer[];
   className?: string;
 }
 
-const players = [
-  { id: 1, name: "Иван Андреев" },
-  { id: 2, name: "Петр Петров" },
-  { id: 3, name: "Сидор Сидоров" },
-];
+export default function List({ players, className }: ListProps) {
+  const playersWithoutPosition = useMemo(
+    () =>
+      players.filter(
+        (player) => player.position.x === null && player.position.y === null
+      ),
+    [players]
+  );
 
-export default function List({ className }: ListProps) {
   return (
     <section className={className}>
       <ul className="flex flex-col gap-4">
-        {players.map((player) => (
-          <li className="flex items-center gap-4" key={player.id}>
-            <Image
-              className="size-12 rounded-full"
-              src={`/pages/home/avatars/${player.id}.jpg`}
-              alt={player.name}
-              width={4615}
-              height={5336}
-              priority
-            />
-            <h3 className="flex gap-2">
-              <span className="font-semibold">{player.id}</span>
-              <span>{player.name}</span>
-            </h3>
-          </li>
+        {playersWithoutPosition.map((player) => (
+          <Player key={player.id} player={player} />
         ))}
       </ul>
     </section>

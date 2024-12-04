@@ -1,15 +1,20 @@
 // import Image from "next/image";
 
-import Field from "@/components/pages/home/field";
-import List from "@/components/pages/home/list";
+import FieldWithList from "@/components/pages/home/field-with-list";
+import { IPlayer } from "@/components/pages/home/list/player";
+
+const players = [
+  { id: 1, name: "Иван Андреев", position: { x: 1, y: 1 } },
+  { id: 2, name: "Петр Петров", position: { x: 2, y: 2 } },
+  { id: 3, name: "Сидор Сидоров", position: { x: null, y: null } },
+];
 
 export default function Home() {
   return (
     <>
       {/* TODO: remove pt-safe, if it's not needed */}
       <main className="pt-safe px-safe flex justify-between gap-10 mx-12 mt-12">
-        <Field className="relative w-2/3" />
-        <List className="w-1/3" />
+        <FieldWithList players={players as IPlayer[]} />
         {/* <Image
           className="dark:invert"
           src="/next.svg"
