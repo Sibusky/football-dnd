@@ -51,7 +51,7 @@ export function Player({ player, isOnField, dnd }: PlayerProps) {
         isDragging && "opacity-50",
         isOnField
           ? "cursor-move flex-col gap-0"
-          : "flex-row gap-4 border py-2 px-4 bg-slate-100 md:gap-3 md:px-3"
+          : "flex-row gap-4 border py-2 px-4 bg-slate-100 dark:bg-slate-800 md:gap-3 md:px-3"
       )}
       key={player.id}
       ref={(element: HTMLDivElement | HTMLLIElement | null) => {
