@@ -81,9 +81,9 @@ export function Player({ player, isOnField, dnd }: PlayerProps) {
       />
       <h3
         className={clsx(
-          "flex gap-2",
+          "flex",
           isOnField
-            ? "flex-col text-sm items-center text-center gap-0"
+            ? "flex-col text-sm items-center text-center gap-0 text-black dark:text-black font-bold"
             : "gap-2 sm:text-sm md:gap-1"
         )}
       >
