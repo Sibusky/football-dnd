@@ -7,12 +7,14 @@ import {
   positionsFourFourTwoRhombus,
   positionsFourThreeThree,
 } from "@/constants/positions";
+import Button from "@/components/shared/button";
 
 interface ControlsProps {
   dnd: Dnd;
+  className?: string;
 }
 
-export default function Controls({ dnd }: ControlsProps) {
+export default function Controls({ dnd, className }: ControlsProps) {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const playersOnFieldCount = dnd.getPlayersOnFieldCount();
 
@@ -37,33 +39,35 @@ export default function Controls({ dnd }: ControlsProps) {
   }
 
   return (
-    <div className="flex gap-2">
-      <button onClick={handleReset}>Сброс</button>
-      <button
-        disabled={isDisabled}
-        onClick={() => handleSetScheme(positionsFourFourTwo)}
-      >
-        4-4-2
-      </button>
-      <button
-        disabled={isDisabled}
-        onClick={() => handleSetScheme(positionsFourFourTwoRhombus)}
-      >
-        4-4-2 ромб
-      </button>
-      <button
-        disabled={isDisabled}
-        onClick={() => handleSetScheme(positionsFourThreeThree)}
-      >
-        4-3-3
-      </button>
-      <button
-        disabled={isDisabled}
-        onClick={() => handleSetScheme(positionsFourFiveOne)}
-      >
-        4-5-1
-      </button>
-      <span>Количество игроков на поле: {dnd.getPlayersOnFieldCount()}</span>
+    <div className={className}>
+      <div className="flex flex-col gap-2 w-[200px] lg:flex-row lg:w-full lg:justify-center lg:gap-4 sm:flex-col sm:w-[200px] sm:gap-2">
+        <Button onClick={handleReset}>Сброс</Button>
+        <Button
+          disabled={isDisabled}
+          onClick={() => handleSetScheme(positionsFourFourTwo)}
+        >
+          4-4-2
+        </Button>
+        <Button
+          disabled={isDisabled}
+          onClick={() => handleSetScheme(positionsFourFourTwoRhombus)}
+        >
+          4-4-2 ромб
+        </Button>
+        <Button
+          disabled={isDisabled}
+          onClick={() => handleSetScheme(positionsFourThreeThree)}
+        >
+          4-3-3
+        </Button>
+        <Button
+          disabled={isDisabled}
+          onClick={() => handleSetScheme(positionsFourFiveOne)}
+        >
+          4-5-1
+        </Button>
+      </div>
+      <span>Игроков на поле: {dnd.getPlayersOnFieldCount()}</span>
     </div>
   );
 }

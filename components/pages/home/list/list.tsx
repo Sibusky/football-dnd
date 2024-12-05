@@ -21,7 +21,8 @@ export default function List({ dnd, className }: ListProps) {
 
   return (
     <section className={className}>
-      <ul className="flex flex-col gap-4">
+      <h2 className="text-2xl font-bold sm:text-xl">Список игроков:</h2>
+      <ul className="flex flex-col gap-1 w-4/5 lg:w-full h-[80vh] overflow-y-hidden hover:overflow-y-auto overflow-x-hidden">
         {playersWithoutPosition.map((player) => (
           <Player key={player.id} player={player} dnd={dnd} />
         ))}

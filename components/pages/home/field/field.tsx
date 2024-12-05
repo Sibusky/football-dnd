@@ -36,17 +36,19 @@ export default function Field({ dnd, className }: FieldProps) {
 
   return (
     <section className={className}>
-      <Image
-        className="w-full"
-        src="/pages/home/field.svg"
-        alt="Футбольное поле"
-        width={452}
-        height={684}
-        priority
-      />
-      <ul className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[93%] flex flex-wrap">
-        {squares}
-      </ul>
+      <div className="relative aspect-[0.66] max-h-[90vh] ml-auto lg:max-h-[85vh]">
+        <Image
+          className="w-full"
+          src="/pages/home/field.svg"
+          alt="Футбольное поле"
+          width={452}
+          height={684}
+          priority
+        />
+        <ul className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[93%] flex flex-wrap">
+          {squares}
+        </ul>
+      </div>
     </section>
   );
 }

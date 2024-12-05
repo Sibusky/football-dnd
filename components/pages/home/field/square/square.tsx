@@ -41,11 +41,17 @@ export default function Square({ x, y, dnd, children }: SquareProps) {
 
   return (
     <li
-      className={clsx("border", isOver && "bg-red-500")}
+      className={clsx(
+        "transition duration-300 ease-in-out",
+        isOver && canDrop
+          ? "bg-blue-500 border-2 border-dashed border-blue-700 scale-105 opacity-40"
+          : isOver && !canDrop
+          ? "bg-red-500 opacity-40"
+          : "bg-transparent"
+      )}
       ref={drop as unknown as React.LegacyRef<HTMLLIElement>}
       style={squareStyle}
     >
-      <span className="text-xs">{`${x}, ${y}`}</span>
       {children}
     </li>
   );

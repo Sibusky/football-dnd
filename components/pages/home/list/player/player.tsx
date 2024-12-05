@@ -7,6 +7,7 @@ import { useDrag } from "react-dnd";
 import { ItemTypes } from "@/types/item-types";
 import { Dnd } from "@/hooks/useDnd";
 import { RolesRu, RoleType } from "@/constants/players";
+import clsx from "clsx";
 
 export interface IPlayer {
   id: number;
@@ -45,7 +46,13 @@ export function Player({ player, isOnField, dnd }: PlayerProps) {
 
   return (
     <Tag
-      className="flex items-center gap-4"
+      className={clsx(
+        "flex items-center cursor-grab group relative",
+        isDragging && "opacity-50",
+        isOnField
+          ? "cursor-move flex-col gap-0"
+          : "flex-row gap-4 border py-2 px-4 bg-slate-100 md:gap-3 md:px-3"
+      )}
       key={player.id}
       ref={(element: HTMLDivElement | HTMLLIElement | null) => {
         if (element) {
@@ -53,19 +60,38 @@ export function Player({ player, isOnField, dnd }: PlayerProps) {
         }
       }}
     >
-      {isOnField && <button onClick={handleRemoveFromField}>R</button>}
+      {isOnField && (
+        <button
+          onClick={handleRemoveFromField}
+          className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+        >
+          ×
+        </button>
+      )}
       <Image
-        className="size-12 rounded-full"
+        className={clsx(
+          "rounded-full",
+          isOnField ? "size-8" : "size-12 md:size-10"
+        )}
         src={player.avatar}
         alt={player.name}
         width={150}
         height={150}
         priority
       />
-      <h3 className="flex gap-2">
+      <h3
+        className={clsx(
+          "flex gap-2",
+          isOnField
+            ? "flex-col text-sm items-center text-center gap-0"
+            : "gap-2 sm:text-sm md:gap-1"
+        )}
+      >
         <span className="font-semibold">{player.id}</span>
         <span>{player.name}</span>
-        <span>({RolesRu[player.role as keyof typeof RolesRu]})</span>
+        {!isOnField && (
+          <span>({RolesRu[player.role as keyof typeof RolesRu]})</span>
+        )}
       </h3>
     </Tag>
   );
