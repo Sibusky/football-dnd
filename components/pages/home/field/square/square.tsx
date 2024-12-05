@@ -19,12 +19,7 @@ const squareStyle = {
   height: `calc(100%/${FIELD_LENGTH})`,
 };
 
-const Square = React.memo(function Square({
-  x,
-  y,
-  dnd,
-  children,
-}: SquareProps) {
+export default function Square({ x, y, dnd, children }: SquareProps) {
   const { movePlayer, canMovePlayer } = dnd;
 
   const [{ isOver, canDrop }, drop] = useDrop(
@@ -54,6 +49,4 @@ const Square = React.memo(function Square({
       {children}
     </li>
   );
-});
-
-export default Square;
+}

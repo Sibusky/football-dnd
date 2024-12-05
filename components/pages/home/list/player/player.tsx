@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "@/types/item-types";
 import { Dnd } from "@/hooks/useDnd";
+import { RolesRu, RoleType } from "@/constants/players";
 
 export interface IPlayer {
   id: number;
@@ -15,7 +16,7 @@ export interface IPlayer {
     x: number | null;
     y: number | null;
   };
-  role: string;
+  role: RoleType;
 }
 
 interface PlayerProps {
@@ -64,7 +65,7 @@ export function Player({ player, isOnField, dnd }: PlayerProps) {
       <h3 className="flex gap-2">
         <span className="font-semibold">{player.id}</span>
         <span>{player.name}</span>
-        <span>({player.role})</span>
+        <span>({RolesRu[player.role as keyof typeof RolesRu]})</span>
       </h3>
     </Tag>
   );

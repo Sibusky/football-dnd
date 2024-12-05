@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { initialPlayers, Roles } from "@/constants/players";
+import { initialPlayers, Roles, RoleType } from "@/constants/players";
 import { IPlayer } from "@/components/pages/home/list/player";
 
 export interface Dnd {
@@ -8,7 +8,7 @@ export interface Dnd {
   canMovePlayer: (toX: number, toY: number) => boolean;
   removePlayer: (player: IPlayer) => void;
   reset: () => void;
-  setSchemeOne: () => void;
+  setScheme: (positions: Record<RoleType, { x: number; y: number }[]>) => void;
   getPlayersOnFieldCount: () => number;
 }
 
@@ -44,58 +44,50 @@ export function useDnd(): Dnd {
     setPlayers(initialPlayers);
   }, []);
 
-  const setSchemeOne = useCallback(() => {
-    const goalkeeper = players.find((p) => p.role === Roles.GOALKEEPER);
-    const defenders = players
-      .filter((p) => p.role === Roles.DEFENDER)
-      .slice(0, 4);
-    const midfielders = players
-      .filter((p) => p.role === Roles.MIDFIELDER)
-      .slice(0, 4);
-    const forwards = players
-      .filter((p) => p.role === Roles.FORWARD)
-      .slice(0, 2);
+  const setScheme = useCallback(
+    (positions: Record<RoleType, { x: number; y: number }[]>) => {
+      setPlayers(() => {
+        const getPlayersForRole = (role: RoleType, count: number) =>
+          initialPlayers.filter((p) => p.role === role).slice(0, count);
 
-    const positions = {
-      [Roles.GOALKEEPER]: [{ x: 3, y: 10 }],
-      [Roles.DEFENDER]: [
-        { x: 1, y: 7 },
-        { x: 5, y: 7 },
-        { x: 2, y: 8 },
-        { x: 4, y: 8 },
-      ],
-      [Roles.MIDFIELDER]: [
-        { x: 1, y: 4 },
-        { x: 5, y: 4 },
-        { x: 2, y: 5 },
-        { x: 4, y: 5 },
-      ],
-      [Roles.FORWARD]: [
-        { x: 2, y: 2 },
-        { x: 4, y: 2 },
-      ],
-    };
+        const goalkeeper = getPlayersForRole(
+          Roles.GOALKEEPER,
+          positions[Roles.GOALKEEPER].length
+        );
+        const defenders = getPlayersForRole(
+          Roles.DEFENDER,
+          positions[Roles.DEFENDER].length
+        );
+        const midfielders = getPlayersForRole(
+          Roles.MIDFIELDER,
+          positions[Roles.MIDFIELDER].length
+        );
+        const forwards = getPlayersForRole(
+          Roles.FORWARD,
+          positions[Roles.FORWARD].length
+        );
 
-    const updatedPlayers = players.map((player) => {
-      const rolePositions = positions[player.role];
-      if (rolePositions) {
-        const index =
-          player.role === Roles.GOALKEEPER && player.id === goalkeeper?.id
-            ? 0
-            : player.role === Roles.DEFENDER
-            ? defenders.findIndex((d) => d.id === player.id)
-            : player.role === Roles.MIDFIELDER
-            ? midfielders.findIndex((m) => m.id === player.id)
-            : forwards.findIndex((f) => f.id === player.id);
-        if (index !== -1) {
-          return { ...player, position: rolePositions[index] };
-        }
-      }
-      return player;
-    });
-
-    setPlayers(updatedPlayers);
-  }, [players]);
+        return initialPlayers.map((player) => {
+          const rolePositions = positions[player.role as keyof typeof Roles];
+          if (rolePositions) {
+            const index =
+              player.role === Roles.GOALKEEPER && player.id === goalkeeper[0].id
+                ? 0
+                : player.role === Roles.DEFENDER
+                ? defenders.findIndex((d) => d.id === player.id)
+                : player.role === Roles.MIDFIELDER
+                ? midfielders.findIndex((m) => m.id === player.id)
+                : forwards.findIndex((f) => f.id === player.id);
+            if (index !== -1) {
+              return { ...player, position: rolePositions[index] };
+            }
+          }
+          return player;
+        });
+      });
+    },
+    []
+  );
 
   const getPlayersOnFieldCount = useCallback(() => {
     return players.filter(
@@ -109,7 +101,7 @@ export function useDnd(): Dnd {
     canMovePlayer,
     removePlayer,
     reset,
-    setSchemeOne,
+    setScheme,
     getPlayersOnFieldCount,
   };
 }

@@ -11,7 +11,7 @@ export default function FieldWithList() {
   const dnd = useDnd();
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider debugMode={true} backend={HTML5Backend}>
       <Field className="relative w-2/3" dnd={dnd} />
       <div className="w-1/3">
         <Controls dnd={dnd} />

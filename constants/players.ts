@@ -1,8 +1,17 @@
 export const Roles = {
-  GOALKEEPER: "ГП",
-  DEFENDER: "З",
-  MIDFIELDER: "ПЗ",
-  FORWARD: "НП",
+  GOALKEEPER: "goalkeeper",
+  DEFENDER: "defender",
+  MIDFIELDER: "midfielder",
+  FORWARD: "forward",
+};
+
+export type RoleType = (typeof Roles)[keyof typeof Roles];
+
+export const RolesRu = {
+  [Roles.GOALKEEPER]: "ГП",
+  [Roles.DEFENDER]: "З",
+  [Roles.MIDFIELDER]: "ПЗ",
+  [Roles.FORWARD]: "НП",
 };
 
 export const initialPlayers = [
