@@ -37,15 +37,16 @@ npm run dev
 
 ## Структура проекта
 
+```plaintext
 project/
 ├── app/
 ├── components/
-│ ├── pages/
-│ │ ├── home/
-│ ├── shared/
+│   ├── pages/
+│   │   └── home/
+│   └── shared/
 ├── constants/
 ├── hooks/
-├── public/
-│ ├── pages/
-│ ├── shared/
-└── ...
+└── public/
+    ├── pages/
+    └── shared/
+```
